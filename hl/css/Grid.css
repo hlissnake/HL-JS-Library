@@ -1,0 +1,40 @@
+/*!
+ * HL JS Library 3.3.1
+ * Copyright(c) 2011 huang long.
+ */
+/* Grid styles */
+th.thClass:hover {
+	background : #CCE1FF url(../img/bg-repeatx.png) repeat-x 0 -11px;
+}
+.hover {
+	background : #EEE;
+}
+.tableClass{
+	table-layout:fixed; 
+	width:400px; 
+	border-collapse: collapse; 
+	border-spacing: 0; 
+	border:1px solid #CCC
+}
+.contextClass{ 
+	cursor: default; margin:0px
+}
+.cellClass{ 
+	border-top: 1px solid #CCC; 
+	padding: 2px 5px;
+}
+.rowClass{ 
+	display: table-row;
+}	
+.thClass{ 
+	border: 1px solid;
+	border-color: #D0D0D0;
+	text-align: left;
+	height:30px;
+	padding: 2px 5px;
+	background: #F2F2F2 url(../img/bg-repeatx.png) repeat-x 0 -130px;
+	cursor:pointer;
+}	
+.selected{ 
+	background:#B8CFEE; 
+}

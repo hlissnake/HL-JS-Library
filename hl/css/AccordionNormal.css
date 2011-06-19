@@ -1,0 +1,89 @@
+@CHARSET "UTF-8";
+
+.box-bottom {
+	margin: -4px 0 0 0;
+	background: url(../img/bg-repeatx.png) no-repeat -3px -3px;
+}
+.box-top {
+	margin: 0 0 -4px 0;
+	background: url(../img/bg-repeatx.png) no-repeat -3px 0;
+}
+.box-top, .box-bottom {
+	display: block;
+	position: relative;
+	height: 4px;
+	overflow: hidden;
+	z-index: 10;
+}
+
+.box-top b, .box-bottom b {
+	float : right;
+	display: block;
+	width: 4px;
+	height: 4px;
+	overflow: hidden;
+	background: url(../img/bg-repeatx.png) no-repeat 0 0;
+}
+.box-bottom b {
+	background-position: 0 -3px;
+}
+
+div.box-hd {
+	margin-top: -1px;
+	border: 1px solid #BAD6FF;
+	cursor: pointer;
+	position: relative;
+	height: 27px;
+	padding: 0 10px;
+	border: 1px solid #BAD6FF;
+	background: #E5EFFF url(../img/bg-repeatx.png) repeat-x 0 -10px;
+	font: 12px/1.1 tahoma, arial, 宋体b8b体4f53, sans-serif;
+}
+
+div.box-hd i : hove {
+	border : 1px solid;
+}
+
+div.box-hd i.collapse {
+	background-position: 0 -240px;
+}
+
+div.box-hd i.expand {
+	background-position: 0 -255px;
+}
+
+div.box-hd i {
+	float: left;
+	width: 16px;
+	height: 16px;
+	margin: 5px 4px 0 0;
+	background: url(../img/tool-sprites.gif);
+}
+
+div.box-bd {
+	border-bottom:10px;
+	border-top:10px;
+	background:none repeat scroll 0 0 #FFFFFF;
+	border:1px solid #BAD6FF;
+	padding:10px;
+	z-index:20;
+	overflow: hidden;
+}
+
+i, cite, em, var, address {
+	font-style: italic;
+}
+
+div.box-hd h3 {
+	float: left;
+	line-height: 26px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+}
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+	margin: 0;
+	padding: 0;
+}
