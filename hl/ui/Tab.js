@@ -5,7 +5,7 @@
 (function(HL){
 
 	/**
-	 * Tab±êÇ©Ò³UI¿Ø¼şÀà
+	 * Tabæ ‡ç­¾é¡µUIæ§ä»¶ç±»
 	 */
 	HL.ui.Tab = HL.Class( HL.ui.Base, {
 		
@@ -44,7 +44,7 @@
 		sleekFrequency : 20,
 
 		/**
-		 * ±êÌâÀ¸Ïò×óÒÆ¶¯
+		 * æ ‡é¢˜æ å‘å·¦ç§»åŠ¨
 		 */
 		moveLeft : function(){
 			var left = this.ul.offsetLeft,
@@ -57,7 +57,7 @@
 		},
 
 		/**
-		 * ±êÌâÀ¸ÏòÓÒÒÆ¶¯
+		 * æ ‡é¢˜æ å‘å³ç§»åŠ¨
 		 */
 		moveRight : function(){
 			var left = this.ul.offsetLeft,
@@ -111,18 +111,18 @@
 			HL.on(ul, 'click', this.onTitleClick, this);
 			HL.on(bd, 'click', this.onPanelClick, this);
 			
-			// Ôö¼ÓTabÒ³ºó Ö´ĞĞÏà¹ØÂß¼­
+			// å¢åŠ Tabé¡µå æ‰§è¡Œç›¸å…³é€»è¾‘
 			this.on('add', this.onAdd);
-			// É¾³ıTabÒ³ºó Ö´ĞĞÏà¹ØÂß¼­
+			// åˆ é™¤Tabé¡µå æ‰§è¡Œç›¸å…³é€»è¾‘
 			this.on('removed', this.onRemove);
-			// ¼¤»îTabÒ³ºó Ö´ĞĞÏà¹ØÂß¼­
+			// æ¿€æ´»Tabé¡µå æ‰§è¡Œç›¸å…³é€»è¾‘
 			this.on('actived', this.onActive);
 
 			this.super.initEvent.call(this);
 		},
 
 		/**
-		 * Ôö¼Ó±êÇ©Ò³ºó´¥·¢µÄ¼àÌıº¯Êı
+		 * å¢åŠ æ ‡ç­¾é¡µåè§¦å‘çš„ç›‘å¬å‡½æ•°
 		 * @param trigger
 		 * @param ct
 		 */
@@ -133,40 +133,40 @@
 				left = HL.q(head, 'i.' + this.leftbtnCls),
 				right = HL.q(head, 'i.' + this.rightbtnCls),
 				movingTask;
-				// È¡µÃËùÓĞTabÒ³µÄ×Ü¿í¶È
+				// å–å¾—æ‰€æœ‰Tabé¡µçš„æ€»å®½åº¦
 				this.ulWidth = trigger.offsetLeft + trigger.clientWidth;
 				this.ulcw = ulcw;
 			
-			// TabÒ³³¬³öÁË ul¿éµÄ¿í¶È·¶Î§£¬²¢ÇÒ×óÓÒ»¬¶¯°´Å¥ÉĞÎ´´´½¨
+			// Tabé¡µè¶…å‡ºäº† ulå—çš„å®½åº¦èŒƒå›´ï¼Œå¹¶ä¸”å·¦å³æ»‘åŠ¨æŒ‰é’®å°šæœªåˆ›å»º
 			if( (this.ulWidth > ulcw) && (!left && !right)){
-				// ´´½¨×óÓÒ»¬¶¯µÄ °´Å¥
+				// åˆ›å»ºå·¦å³æ»‘åŠ¨çš„ æŒ‰é’®
 				left = HL.dom.createEl('i', {
 					className : this.leftbtnCls
 				});
 				right = HL.dom.createEl('i', {
 					className : this.rightbtnCls
 				});
-				right.style.left = ulcw - 20 + 'px'; // ÉèÖÃÓÒ»¬¶¯Å¥µÄË®Æ½Î»ÖÃ
+				right.style.left = ulcw - 20 + 'px'; // è®¾ç½®å³æ»‘åŠ¨é’®çš„æ°´å¹³ä½ç½®
 				head.appendChild(right);
 				head.insertBefore(left, head.firstChild);
 				
 				
-				// µã»÷×ó±ßµÄ°´Å¥£¬UL ¿ªÊ¼Ïò×ó»¬¶¯£¬movingTaskÊÇÒ»¸ö»¬¶¯¶¯»­Ïß³Ì
+				// ç‚¹å‡»å·¦è¾¹çš„æŒ‰é’®ï¼ŒUL å¼€å§‹å‘å·¦æ»‘åŠ¨ï¼ŒmovingTaskæ˜¯ä¸€ä¸ªæ»‘åŠ¨åŠ¨ç”»çº¿ç¨‹
 				HL.on(left, 'mousedown', function(){
 					movingTask = this.moveLeft.createInterval(this.sleekFrequency, this);
 					movingTask.run();
 				}, this);
-				// ·Å¿ª×ó±ßµÄ°´Å¥£¬UL Í£Ö¹Ïò×ó»¬¶¯
+				// æ”¾å¼€å·¦è¾¹çš„æŒ‰é’®ï¼ŒUL åœæ­¢å‘å·¦æ»‘åŠ¨
 				HL.on(left, 'mouseup', function(){
 					movingTask.stop();
 				}, this);
 
-				// µã»÷ÓÒ±ßµÄ°´Å¥£¬UL ¿ªÊ¼ÏòÓÒ»¬¶¯£¬movingTaskÊÇÒ»¸ö»¬¶¯¶¯»­Ïß³Ì
+				// ç‚¹å‡»å³è¾¹çš„æŒ‰é’®ï¼ŒUL å¼€å§‹å‘å³æ»‘åŠ¨ï¼ŒmovingTaskæ˜¯ä¸€ä¸ªæ»‘åŠ¨åŠ¨ç”»çº¿ç¨‹
 				HL.on(right, 'mousedown', function(){
 					movingTask = this.moveRight.createInterval(this.sleekFrequency, this);
 					movingTask.run();
 				}, this);
-				// ·Å¿ªÓÒ±ßµÄ°´Å¥£¬UL Í£Ö¹ÏòÓÒ»¬¶¯
+				// æ”¾å¼€å³è¾¹çš„æŒ‰é’®ï¼ŒUL åœæ­¢å‘å³æ»‘åŠ¨
 				HL.on(right, 'mouseup', function(){
 					movingTask.stop();
 				}, this);
@@ -175,7 +175,7 @@
 		},
 
 		/**
-		 * ÒÆ¶¯±êÇ©Ò³ºó´¥·¢µÄ¼àÌıº¯Êı
+		 * ç§»åŠ¨æ ‡ç­¾é¡µåè§¦å‘çš„ç›‘å¬å‡½æ•°
 		 */
 		onRemove : function(){
 			var head = this.ul.parentNode,
@@ -183,7 +183,7 @@
 				left = HL.q(head, 'i.' + this.leftbtnCls),
 				right = HL.q(head, 'i.' + this.rightbtnCls);
 			this.ulWidth = this.ul.lastChild.offsetLeft + this.ul.lastChild.clientWidth;
-			// ¼ì²â±êÌâ¿í¶ÈÊÇ·ñ³¬³ö£¬Î´³¬³öÔòÉ¾³ı×óÓÒ»¬¶¯°´Å¥
+			// æ£€æµ‹æ ‡é¢˜å®½åº¦æ˜¯å¦è¶…å‡ºï¼Œæœªè¶…å‡ºåˆ™åˆ é™¤å·¦å³æ»‘åŠ¨æŒ‰é’®
 			if( (this.ulWidth <= ulcw) && (left && right)) {
 				HL.dom.removeEl(left, head);
 				HL.dom.removeEl(right, head);
@@ -192,25 +192,25 @@
 		},
 
 		/**
-		 * ¼¤»îÄ³±êÇ©Ò³ºóµÄ¼àÌıº¯Êı
+		 * æ¿€æ´»æŸæ ‡ç­¾é¡µåçš„ç›‘å¬å‡½æ•°
 		 * @param activehd
 		 */
 		onActive : function(activehd){
 			var head = this.ul.parentNode,
 				ulcw = head.clientWidth,
 				width = activehd.offsetLeft + activehd.clientWidth;
-			// ±»¼¤»îTab±êÇ©Òş²ØÔÚÓÒ²à
+			// è¢«æ¿€æ´»Tabæ ‡ç­¾éšè—åœ¨å³ä¾§
 			if( ulcw - width - 20 <= this.ul.offsetLeft){
 				this.ul.style.left = ulcw - width - 20 + 'px';
 			}
-			// ±»¼¤»îTab±êÇ©Òş²ØÔÚ×ó²à
+			// è¢«æ¿€æ´»Tabæ ‡ç­¾éšè—åœ¨å·¦ä¾§
 			if( activehd.offsetLeft + this.ul.offsetLeft < 0){
 				this.ul.style.left = 0 - activehd.offsetLeft + 'px';
 			}
 		},
 
 		/**
-		 * ´´½¨ĞÂ±êÇ©Ò³
+		 * åˆ›å»ºæ–°æ ‡ç­¾é¡µ
 		 * @param id
 		 * @param tabname
 		 * @param context
@@ -223,9 +223,9 @@
 				trigger,
 				ct, i;
 
-			// ÊÇ·ñ³¬¹ı×î´óTabÒ³ÊıÏŞÖÆ
+			// æ˜¯å¦è¶…è¿‡æœ€å¤§Tabé¡µæ•°é™åˆ¶
 			if(this.tabnum < this.max){
-				// ÊÇ·ñ¿É¹Ø±Õ
+				// æ˜¯å¦å¯å…³é—­
 				i = uncloseble ? '' : '<i></i>';
 				trigger = HL.dom.createEl('li', {
 					id : id, 
@@ -265,7 +265,7 @@
 		},
 
 		/**
-		 * ¼¤»îÄ³±êÇ©Ò³
+		 * æ¿€æ´»æŸæ ‡ç­¾é¡µ
 		 * @param id
 		 */
 		activeTab : function(id){
@@ -303,7 +303,7 @@
 		},
 
 		/**
-		 * ÒÆ³ıÄ³±êÇ©Ò³
+		 * ç§»é™¤æŸæ ‡ç­¾é¡µ
 		 * @param id
 		 */
 		removeTab : function(id){
@@ -337,7 +337,7 @@
 		},
 
 		/**
-		 * ÅĞ¶Ï±êÇ©Ò³ÊÇ·ñ´æÔÚ
+		 * åˆ¤æ–­æ ‡ç­¾é¡µæ˜¯å¦å­˜åœ¨
 		 * @param id
 		 * @returns {Boolean}
 		 */
@@ -349,7 +349,7 @@
 		},
 
 		/**
-		 * µã»÷±êÌâÀ¸µÄ´¥·¢ÊÂ¼ş
+		 * ç‚¹å‡»æ ‡é¢˜æ çš„è§¦å‘äº‹ä»¶
 		 * @param event
 		 */
 		onTitleClick : function(event){
@@ -365,7 +365,7 @@
 		},
 
 		/**
-		 * µã»÷ÄÚÈİÇøÓòµÄ´¥·¢ÊÂ¼ş
+		 * ç‚¹å‡»å†…å®¹åŒºåŸŸçš„è§¦å‘äº‹ä»¶
 		 * @param event
 		 */
 		onPanelClick : function(event){
