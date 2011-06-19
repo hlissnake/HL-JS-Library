@@ -4,12 +4,12 @@
  */
 
 /**
- * Ê¸Á¿Êı×ÖUI¿Ø¼şÀà
+ * çŸ¢é‡æ•°å­—UIæ§ä»¶ç±»
  */
 HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 
 	/**
-	 * Ê¸Á¿Êı×ÖHTMLÄ£°å
+	 * çŸ¢é‡æ•°å­—HTMLæ¨¡æ¿
 	 */
 	tpl : [ '<div class="top"></div>',
 		    '<div class="left"></div>',	
@@ -22,7 +22,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 		    '<div class="top"></div>'],
 
     /**
-     * 0-9¸÷¸öÊı×ÖËù¶ÔÓ¦µÄDIVÏÔÊ¾Òş²ØµÄË³Ğò¾ØÕó
+     * 0-9å„ä¸ªæ•°å­—æ‰€å¯¹åº”çš„DIVæ˜¾ç¤ºéšè—çš„é¡ºåºçŸ©é˜µ
      */	
 	shape : [[1,1,1,0,1,1,1], // 0
 	         [0,0,1,0,0,1,0], // 1
@@ -55,7 +55,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 		};
 
 		/**
-		 * ÒÔÖ¸¶¨Æµ¶È¿ªÊ¼¼ÆÊı
+		 * ä»¥æŒ‡å®šé¢‘åº¦å¼€å§‹è®¡æ•°
 		 * @param frequency
 		 */
 		this.count = function(frequency){
@@ -68,7 +68,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 			loop.run();
 		};
 		/**
-		 * Í£Ö¹¼ÆÊı
+		 * åœæ­¢è®¡æ•°
 		 */
 		this.stopCount = function(){
 			loop.stop();
@@ -92,7 +92,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * Ë¢ĞÂDOM½á¹¹£¬±ä»»ÏàÓ¦µÄÊı×ÖÍ¼ĞÎ
+	 * åˆ·æ–°DOMç»“æ„ï¼Œå˜æ¢ç›¸åº”çš„æ•°å­—å›¾å½¢
 	 * @param number
 	 */
 	fleshUI : function(number){
@@ -110,7 +110,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * ÉèÖÃµ±Ç°ÊıÖµ£¬²¢¸Ä±äĞÎ×´
+	 * è®¾ç½®å½“å‰æ•°å€¼ï¼Œå¹¶æ”¹å˜å½¢çŠ¶
 	 * @param n
 	 */
 	set : function(n){
@@ -126,7 +126,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * µ±Ç°ÊıÖµ+1
+	 * å½“å‰æ•°å€¼+1
 	 */
 	add : function(){
 		var n = this.getNumber() + 1;
@@ -136,7 +136,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * µ±Ç°ÊıÖµ-1
+	 * å½“å‰æ•°å€¼-1
 	 */
 	minus : function(){
 		var n = this.getNumber() - 1;
