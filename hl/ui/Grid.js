@@ -4,7 +4,7 @@
  */
 
 /**
- * Grid±í¸ñ UI¿Ø¼şÀà
+ * Gridè¡¨æ ¼ UIæ§ä»¶ç±»
  */
 HL.ui.Grid = HL.Class( HL.ui.Base, {
 	
@@ -119,7 +119,7 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * Çå³ıÊó±ê»¬¹ıµÄĞ§¹ûÑùÊ½
+	 * æ¸…é™¤é¼ æ ‡æ»‘è¿‡çš„æ•ˆæœæ ·å¼
 	 */
 	clearHoverCls : function(){
 		var rows = this.getRow(),
@@ -134,7 +134,7 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * ÊÂ¼ş´úÀíÄ£Ê½Ö´ĞĞº¯Êı
+	 * äº‹ä»¶ä»£ç†æ¨¡å¼æ‰§è¡Œå‡½æ•°
 	 * @param eventName
 	 * @param e
 	 */
@@ -158,7 +158,7 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * ²éÑ¯³öDOMÔªËØÔÚGrid±êÌâÉÏµÄÏàÓ¦Î»ÖÃ
+	 * æŸ¥è¯¢å‡ºDOMå…ƒç´ åœ¨Gridæ ‡é¢˜ä¸Šçš„ç›¸åº”ä½ç½®
 	 * @param t
 	 * @returns
 	 */
@@ -178,14 +178,14 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * È¡µÃGridËùÓĞĞĞ
+	 * å–å¾—Gridæ‰€æœ‰è¡Œ
 	 */
 	getRow : function(){
 		return HL.q(this.body, 'tbody tr.' + this.getRowCls(), true);
 	},
 
 	/**
-	 * ²éÑ¯³öDOMÔªËØÔÚGridÁĞÉÏµÄÏàÓ¦Î»ÖÃ
+	 * æŸ¥è¯¢å‡ºDOMå…ƒç´ åœ¨Gridåˆ—ä¸Šçš„ç›¸åº”ä½ç½®
 	 * @param t
 	 * @returns
 	 */
@@ -205,7 +205,7 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * ²éÑ¯³öµ¥Ôª¸ñµÄÏàÓ¦Î»ÖÃ
+	 * æŸ¥è¯¢å‡ºå•å…ƒæ ¼çš„ç›¸åº”ä½ç½®
 	 * @param t
 	 * @param r
 	 * @returns

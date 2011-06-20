@@ -4,7 +4,7 @@
  */
 
 /**
- * AccordionÊÖ·çÇÙ UI¿Ø¼şÀà
+ * Accordionæ‰‹é£ç´ UIæ§ä»¶ç±»
  */
 HL.ui.Accordion = HL.Class( HL.ui.Base, {
 
@@ -35,7 +35,7 @@ HL.ui.Accordion = HL.Class( HL.ui.Base, {
 	renderUI : function(){
 		var i = 0, context,
 			len = this.accords.length,
-			// ÉÏ·½µÄÔ²½ÇĞ§¹û
+			// ä¸Šæ–¹çš„åœ†è§’æ•ˆæœ
 			bd = ['<s class="' + this.tpCls + '"><b></b></s>'];
 
 		this.length = len;	
@@ -49,7 +49,7 @@ HL.ui.Accordion = HL.Class( HL.ui.Base, {
 			bd.push('<i class="' + this.collapseCls + '"></i><h3>' + this.accords[i].title + '</h3></div>');
 			bd.push('<div class="' + this.bdCls + '" index="' + i + '" style="display : none">' + context + '</div>');
 		}
-		// ÏÂ·½µÄÔ²½ÇĞ§¹û
+		// ä¸‹æ–¹çš„åœ†è§’æ•ˆæœ
 		bd.push('<s class="' + this.btCls + '"><b></b></s>');
 		
 		this.body = HL.dom.createEl('div', {
@@ -66,7 +66,7 @@ HL.ui.Accordion = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * Ôö¼ÓÒ»¸ö±êÌâÀ¸
+	 * å¢åŠ ä¸€ä¸ªæ ‡é¢˜æ 
 	 * @param accord
 	 */
 	addAccordion : function(accord){
@@ -82,7 +82,7 @@ HL.ui.Accordion = HL.Class( HL.ui.Base, {
 	},
 
 	/**
-	 * µã»÷±êÌâÀ¸Ê±µÄ´¥·¢ÊÂ¼ş
+	 * ç‚¹å‡»æ ‡é¢˜æ æ—¶çš„è§¦å‘äº‹ä»¶
 	 * @param ev
 	 */
 	onAccordionClick : function(ev) {
@@ -91,7 +91,7 @@ HL.ui.Accordion = HL.Class( HL.ui.Base, {
 			b = HL.dom.findParent(target, 'div.' + this.bdCls),
 			ads, i, h, style;
 
-		// µã»÷µÄÊÇ±êÌâÀ¸
+		// ç‚¹å‡»çš„æ˜¯æ ‡é¢˜æ 
 		if(t){
 			ads = HL.q(this.body, 'div.' + this.bdCls, true);
 			i = HL.q(t, 'div i');
@@ -106,7 +106,7 @@ HL.ui.Accordion = HL.Class( HL.ui.Base, {
 				
 				//HL.dom.addClass(t, this.hdClickCls);
 				b = t.nextSibling;
-				// ÉèÖÃÕ¹¿ªµÄ¸ß¶È£¬ÊµÏÖ¶¯»­Ğ§¹û
+				// è®¾ç½®å±•å¼€çš„é«˜åº¦ï¼Œå®ç°åŠ¨ç”»æ•ˆæœ
 				b.style.display = 'block';
 				h = HL.dom.getHeight(b);
 				b.style.height = '0';
@@ -128,7 +128,7 @@ HL.ui.Accordion = HL.Class( HL.ui.Base, {
 			}
 			this.fire('headClick', this.activeIndex, ev);
 		}
-		// µã»÷µÄÊÇÄÚÈİÇøÓò
+		// ç‚¹å‡»çš„æ˜¯å†…å®¹åŒºåŸŸ
 		else if (b) {
 			this.fire('panelClick', this.activeIndex, ev);
 		}

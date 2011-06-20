@@ -4,7 +4,7 @@
  */
 
 /**
- * Ê¸Á¿Êı×ÖÊ±ÖÓUI¿Ø¼şÀà
+ * çŸ¢é‡æ•°å­—æ—¶é’ŸUIæ§ä»¶ç±»
  */
 HL.ui.DigitalClock = HL.Class(HL.ui.Base, {
 	
@@ -21,9 +21,9 @@ HL.ui.DigitalClock = HL.Class(HL.ui.Base, {
 	renderUI : function(){
 		var id = this.id,
 			cl = ['<div id="hour' + id + '" style="float:left"></div>',
-		      '<div style="float:left;margin-top:20px"><p><strong>Â·</strong></p><p><strong>Â·</strong></p></div>',
+		      '<div style="float:left;margin-top:20px"><p><strong>è·¯</strong></p><p><strong>è·¯</strong></p></div>',
 			  '<div id="min' + id + '" style="float:left"></div>',
-			  '<div style="float:left;margin-top:20px"><p><strong>Â·</strong></p><p><strong>Â·</strong></p></div>',
+			  '<div style="float:left;margin-top:20px"><p><strong>è·¯</strong></p><p><strong>è·¯</strong></p></div>',
 			  '<div id="second' + id + '" style="float:left"></div>'];
 
 		this.body = HL.dom.createEl('div', {id : id});
@@ -53,22 +53,22 @@ HL.ui.DigitalClock = HL.Class(HL.ui.Base, {
 
 	initEvent : function() {
 
-		// ÃëÕë¸öÎ»Êı½øÎ»Ê±£¬Ê®Î»Êı½üÒ»
+		// ç§’é’ˆä¸ªä½æ•°è¿›ä½æ—¶ï¼Œåä½æ•°è¿‘ä¸€
 		this.second[1].on('carry', function(){
 			this.second[0].add();
 		}, this);
-		// ÃëÕëÊ®Î»Êı½øÎ»Ê±£¬·ÖÕë¸öÎ»Êı½üÒ»
+		// ç§’é’ˆåä½æ•°è¿›ä½æ—¶ï¼Œåˆ†é’ˆä¸ªä½æ•°è¿‘ä¸€
 		this.second[0].on('carry', function(){
 			this.min[1].add();
 		}, this);
-		// ·ÖÕë¸öÎ»Êı½øÎ»Ê±£¬Ğ£¶ÔÏµÍ³Ê±¼ä
+		// åˆ†é’ˆä¸ªä½æ•°è¿›ä½æ—¶ï¼Œæ ¡å¯¹ç³»ç»Ÿæ—¶é—´
 		this.min[1].on('change', function(){
 			this.checkTime();
 		}, this);
 	},
 
 	/**
-	 * Ê±ÖÓ¿ªÊ¼¼ÆÊ±
+	 * æ—¶é’Ÿå¼€å§‹è®¡æ—¶
 	 */
 	run : function(){
 		this.checkTime();
@@ -76,7 +76,7 @@ HL.ui.DigitalClock = HL.Class(HL.ui.Base, {
 	},
 
 	/**
-	 * ¼ì²âÏµÍ³Ê±¼ä£¬Ğ£¶Ôµ±Ç°Ê±¼ä
+	 * æ£€æµ‹ç³»ç»Ÿæ—¶é—´ï¼Œæ ¡å¯¹å½“å‰æ—¶é—´
 	 */
 	checkTime : function(){
 		var time = new Date(),
