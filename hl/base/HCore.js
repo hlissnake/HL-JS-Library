@@ -586,7 +586,7 @@ HL.append(HL.dom, {
 		if(el.currentStyle){
 			return el.currentStyle;
 		} else if(document.defaultView.getComputedStyle) {
-			return document.defaultView.getComputedStyle(el);
+			return document.defaultView.getComputedStyle(el, null);
 		}
 	},
 
