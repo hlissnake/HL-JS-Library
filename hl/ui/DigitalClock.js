@@ -1,12 +1,9 @@
 /*!
- * HL JS Library
+ * HL JS Library 0/5
  * Copyright(c) 2011 huang long.
  */
 
-/**
- * 矢量数字时钟UI控件类
- */
-HL.ui.DigitalClock = HL.Class(HL.ui.Base, {
+HL.ui.DigitalClock = Class(HL.ui.Base, {
 	
 	hour : [{}, {}], 
 	
@@ -21,9 +18,9 @@ HL.ui.DigitalClock = HL.Class(HL.ui.Base, {
 	renderUI : function(){
 		var id = this.id,
 			cl = ['<div id="hour' + id + '" style="float:left"></div>',
-		      '<div style="float:left;margin-top:20px"><p><strong>路</strong></p><p><strong>路</strong></p></div>',
+		      '<div style="float:left;margin-top:20px"><p><strong>·</strong></p><p><strong>·</strong></p></div>',
 			  '<div id="min' + id + '" style="float:left"></div>',
-			  '<div style="float:left;margin-top:20px"><p><strong>路</strong></p><p><strong>路</strong></p></div>',
+			  '<div style="float:left;margin-top:20px"><p><strong>·</strong></p><p><strong>·</strong></p></div>',
 			  '<div id="second' + id + '" style="float:left"></div>'];
 
 		this.body = HL.dom.createEl('div', {id : id});
@@ -52,32 +49,22 @@ HL.ui.DigitalClock = HL.Class(HL.ui.Base, {
 	},
 
 	initEvent : function() {
-
-		// 秒针个位数进位时，十位数近一
 		this.second[1].on('carry', function(){
 			this.second[0].add();
 		}, this);
-		// 秒针十位数进位时，分针个位数近一
 		this.second[0].on('carry', function(){
 			this.min[1].add();
 		}, this);
-		// 分针个位数进位时，校对系统时间
 		this.min[1].on('change', function(){
 			this.checkTime();
 		}, this);
 	},
 
-	/**
-	 * 时钟开始计时
-	 */
 	run : function(){
 		this.checkTime();
 		this.second[1].count(1000);
 	},
-
-	/**
-	 * 检测系统时间，校对当前时间
-	 */
+	
 	checkTime : function(){
 		var time = new Date(),
 			h = time.getHours(),

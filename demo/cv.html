@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" href="./css/Resume.css">
+
+<style>
+#messagebox{
+	position:absolute;
+	top:-20px;
+	font: 15px "Microsoft YaHei";
+	color:red;
+	z-index:100;
+	opacity:0.7;
+}
+</style>
+
+<script type="text/javascript" src="../hl/base/HCore.js"></script>
+<script type="text/javascript" src="../hl/base/EventMgr.js"></script>
+<script type="text/javascript">
+
+window.onload = function(){
+
+	var tabPanel, opacity;
+	
+	var showMessage = (function(msg){
+		this.innerHTML = msg;
+		this.style.left = (DOC.body.offsetWidth - this.clientWidth)/2 + 'px';
+		
+		HL.dom.animate(this, {
+			top : 35
+		}, 2000, true, function(){
+			HL.dom.animate(this, {
+				top : -25
+			}, 2000, true);
+		});
+	}).buffer(4000, $('messagebox'));;
+	
+	HL.load('../hl/css/Grid.css');
+	HL.load('../hl/ui/Grid.js');
+	
+	HL.on('showtime', 'click', function(ev){
+		ev.stopEvent();
+		this.innerHTML = 'Hide clock';
+		
+		if(opacity){
+			var status = opacity.style.display === 'none' ? 'block' : 'none';
+			opacity.style.display = status;
+			this.innerHTML = (status === 'block' ? 'Hide clock' : 'Show time!');
+			return;
+		}
+		opacity = HL.dom.createEl('div',{
+			id : 'clock',
+			className : 'opacity'
+		});
+		DOC.body.appendChild(opacity);
+		HL.dom.setStyle(opacity, {
+			left : (DOC.body.offsetWidth - opacity.clientWidth)/2 + 'px',
+			top : (DOC.body.offsetHeight - opacity.clientHeight)/3 + 'px'
+		});
+		
+		HL.load('../hl/css/Clock.css');
+		HL.load('../hl/ui/DigitalNumber.js', function(){
+			HL.load('../hl/ui/DigitalClock.js', function(){
+				var clock = new HL.ui.DigitalClock({
+					renderID : 'clock', 
+					id : 'dclock'
+				});
+				clock.run();
+			});
+			HL.load('../hl/behavior/DragDrop.js', function(){
+				new HL.bi.DragDrop('clock', 'clock');
+			});
+		});
+	});
+
+
+	HL.load('../hl/css/Tab.css');
+	HL.load('../hl/ui/Tab.js', function(){
+		var id = 0, tab = HL.ui.Tab;
+		tabPanel = new tab({ 
+			renderID : 'S_Container', 
+			height : 460
+		});
+
+		tabPanel.addTab('Welcome', 'Welcome', '<strong style="padding:10px">Hei! My name is huang long, Welcome to My resume, Have a good seeing!!</strong>', true);
+		tabPanel.activeTab(0);
+	});
+
+	HL.load('../hl/css/Accordion.css');
+	HL.load('../hl/ui/Accordion.js', function(){
+
+		var pi = ['<ul class="s-list">',
+				  '<li><a href="./page/personal.html" id="mpi">My Personal info</a></li>',
+				  '</ul>'],
+			sc = ['<ul class="s-list">',
+				  '<li><a href="./page/frontend.html" id="fs">frontend tech</a></li>',
+				  '<li><a href="./page/backend.html" id="bs">backend tech</a></li>',
+				  '</ul>'],
+			we = ['<ul class="s-list">',
+				  '<li><a href="./page/longtop.html" id="comp_a">Longtop</a></li>',
+				  '<li><a href="./page/changfang.html" id="comp_b">Chuang fang</a></li>',
+				  '</ul>'],
+			pe = ['<ul class="s-list">',
+				  '<li><a href="./page/cas.html" id="proj_a">ABC CAS</a></li>',
+				  '<li><a href="./page/cms3.html" id="proj_b">ABC CMS3</a></li>',
+				  '<li><a href="./page/lam.html" id="proj_c">LAM</a></li>',
+				  '<li><a href="./page/paperdirect.html" id="proj_d">Paper Direct</a></li>',
+				  '<li><a href="./page/edinet.html" id="proj_e">Edient</a></li>',
+				  '</ul>'],
+			lb = ['<ul class="s-list">',
+				  '<li><a href="./page/api.html" id="lb_api">Core API</a></li>',
+				  '<li><a href="#" id="lb_grid">Grid Lazyload</a></li>',
+				  '</ul>'];
+
+		var accordion = new HL.ui.Accordion({
+			el : query(DOC.body, 'div.s-section'),
+			accords : [
+				{title : 'Personal Information', context : pi.join('')},
+				{title : 'Self-assessment', context : sc.join('')},
+				{title : 'Work Experience', context : we.join('')},
+				{title : 'Project Experience', context : pe.join('')},
+				{title : 'HL JS Library', context : lb.join('')}
+			]
+		});
+
+		accordion.on('panelClick', function(i, ev){
+			var t = ev.getTarget(),
+				id, title, href;
+			if(t.nodeName.toLowerCase() === 'a'){
+				ev.stopEvent();
+				id = 'tab_' + t.id;
+				title = t.innerHTML;
+				href = t.href;
+				if( !tabPanel.hasTab(id) ){
+					var r, 
+						context;
+					if(t.id === 'lb_grid'){
+						context = {
+							class : HL.ui.Grid,
+							params : {
+								id : 'mygrid', 
+								cm : ['id', 'name', 'age', 'sex', 'bouns'],
+								ds : { data:[
+									['1', 'jill', '12', 'female', '20K'],
+									['2', 'snake', '23', 'male', '20K'],
+									['3', 'cash', '15', 'male', '20K'],
+									['4', 'rose', '28', 'female', '25K'],
+									['5', 'mike', '24', 'male', '20K'],
+									['6', 'clare', '23', 'female', '25K'],
+									['7', 'eve', '31', 'female', '14K']
+								]}
+							}
+						};
+					} else {
+						context = '<iframe src="' + href + '" frameborder="0" style="width:100%;height:400px;overflow:auto;border:none;"></iframe>';
+					}
+					r = tabPanel.addTab(id, title, context);
+					if(!r) {
+						showMessage('Sorry,You can just open 5 Tabs...close them');
+						return;
+					}
+				}
+				tabPanel.activeTab(id);
+			}
+		});
+
+	});
+}
+
+</script>
+</head>
+<body>
+
+<div id="header"> 
+    <h1 class="logo"><img src="img/no-IE6.png"/></h1> 
+    <p class="sub-title">HL JS Library Product</p>
+    <ul class="navigation"> 
+        <li><a href="http://www.cnblogs.com/hlissnake/" target="_blank">My Blog</a></li> 
+        <li><a href="#" id="showtime" style="color : red">Hei, click here!</a></li> 
+    </ul> 
+</div> 
+
+<div id="context">
+    <div class="s-crumbs">
+        <h2><strong>Welcome to Huanglong's Resume：</strong></h2>
+    </div>
+	<div class="layout grid-s6m0">
+		<div class="col-sub">
+			<div class="sub-wrap">
+				<h3 class="s-title"><strong>Informations:</strong></h3>
+				<div class="s-section">
+                </div> 
+			</div>
+		</div>
+        <div class="col-main">
+            <div class="main-wrap" id="S_Container">
+            </div>
+		</div>
+	</div>
+	<div id="footer">
+        &copy; JSCode Copyright 2011~2012, HL Library.<br>
+        &copy; Css Copyright 2011~2012, Baidu.com @ Kissy Blog.<br>
+    </div>
+</div>
+
+<div id="messagebox">
+</div>
+
+</body>
+</html>

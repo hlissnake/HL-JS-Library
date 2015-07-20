@@ -1,16 +1,9 @@
 /*!
- * HL JS Library
+ * HL JS Library 3.3.1
  * Copyright(c) 2011 huang long.
  */
-
-/**
- * 矢量数字UI控件类
- */
-HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
-
-	/**
-	 * 矢量数字HTML模板
-	 */
+HL.ui.DigitalNumber = Class( HL.ui.Base, {
+	
 	tpl : [ '<div class="top"></div>',
 		    '<div class="left"></div>',	
 		    '<div class="center"></div>',
@@ -20,10 +13,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 		    '<div class="center"></div>',
 		    '<div class="right"></div>',
 		    '<div class="top"></div>'],
-
-    /**
-     * 0-9各个数字所对应的DIV显示隐藏的顺序矩阵
-     */	
+			
 	shape : [[1,1,1,0,1,1,1], // 0
 	         [0,0,1,0,0,1,0], // 1
 			 [1,0,1,1,1,0,1], // 2
@@ -53,11 +43,6 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 		this.setAllCls = function(cls){
 			allCls = cls;
 		};
-
-		/**
-		 * 以指定频度开始计数
-		 * @param frequency
-		 */
 		this.count = function(frequency){
 			if(typeof frequency === 'string'){
 				frequency = parseInt(frequency);
@@ -67,9 +52,6 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 			loop = this.add.createInterval(frequency, this);
 			loop.run();
 		};
-		/**
-		 * 停止计数
-		 */
 		this.stopCount = function(){
 			loop.stop();
 		};
@@ -90,15 +72,11 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 
 		this.super.renderUI.call(this);
 	},
-
-	/**
-	 * 刷新DOM结构，变换相应的数字图形
-	 * @param number
-	 */
+	
 	fleshUI : function(number){
 		var div, array = [], i, len,
 			shape = this.shape[number];
-		div = HL.q(this.body, 'div',true);
+		div = this.body.querySelectorAll('div');
 		for(i=0,len=div.length; i < len; i++){
 			array[i] = div[i];
 		}
@@ -108,11 +86,7 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 			v.style.visibility = shape[i] ? 'visible' : 'hidden';
 		});
 	},
-
-	/**
-	 * 设置当前数值，并改变形状
-	 * @param n
-	 */
+	
 	set : function(n){
 		if(n > 9) 
 			return;
@@ -124,20 +98,14 @@ HL.ui.DigitalNumber = HL.Class( HL.ui.Base, {
 				this.fire('carry', this);
 		}
 	},
-
-	/**
-	 * 当前数值+1
-	 */
+	
 	add : function(){
 		var n = this.getNumber() + 1;
 		if(n > this.maxbit) n = 0;
 		this.fleshUI(n);
 		this.set(n);
 	},
-
-	/**
-	 * 当前数值-1
-	 */
+	
 	minus : function(){
 		var n = this.getNumber() - 1;
 		if(n < 0) n = this.maxbit;

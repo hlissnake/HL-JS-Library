@@ -1,28 +1,15 @@
 /*!
- * HL JS Library
+ * HL JS Library 3.3.1
  * Copyright(c) 2011 huang long.
  */
-(function(){
-
-var version = {
-		// 页面中的框架名称，默认为 'HL'，在多个版本中可以分别设置加以区分
-		prefix : 'HL',
-		verid : 0.7
-	},
-	
-	// 闭包变量，防止同名HL全局变量冲突
-	HL = {
-		uuid : version.prefix,
-		version : version.verid
+if(!window['HL']) {
+	window['HL'] = {
+		version : 0.5
 	};
+}
 
+var DOC = document;
 
-/**
- * 对象属性复制
- * @param destination
- * @param source
- * @returns
- */
 HL.append = function(destination, source){
 	for(var o in source){
 		destination[o] = source[o];
@@ -30,10 +17,8 @@ HL.append = function(destination, source){
 	return destination;
 };
 
-// 对象原型扩展
 HL.append(Object.prototype, {
-
-	// 对象深度复制
+	
 	clone : function(){
 		var cloneattr = function(org){
 			var obj;
@@ -51,8 +36,7 @@ HL.append(Object.prototype, {
 		};
 		return cloneattr(o || this);
 	},
-
-	// Array like 对象的遍历
+	
 	each : function(fn, scope){
 		var i = 0, len = this.length,
 			array = [];
@@ -66,10 +50,9 @@ HL.append(Object.prototype, {
 });
 
 
-// 函数原型扩展
 HL.append(Function.prototype, {
 
-	// 作用域代理
+	//锟斤拷锟接碉拷前锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟街革拷锟斤拷锟斤拷锟�
 	delegate : function(scope){
 		var method = this,
 			arglist = Array.prototype.slice.call(arguments, 1);
@@ -78,8 +61,7 @@ HL.append(Function.prototype, {
 			return method.apply(scope || method || this, callargs);
 		};
 	},
-
-	// 延迟调用(计时器)
+	
 	defer : function(time, scope){
 		var slice = Array.prototype.slice,
 			method = this,
@@ -89,8 +71,7 @@ HL.append(Function.prototype, {
 			return method.apply(scope || method || this, callargs);
 		}, time);
 	},
-
-	// 缓冲调用
+	
 	buffer : function(time, scope){
 		var slice = Array.prototype.slice,
 			args = slice.call(arguments, 2),
@@ -109,14 +90,10 @@ HL.append(Function.prototype, {
 			}
 		};
 	},
-
-	// 循环调用(自动迭代)
-	/**
-	 * condition 为迭代是否循环的条件函数
-	 */
+	
 	loop : function(frequency, scope, condition){
 		var method = this,
-			callargs = Array.prototype.slice.call(arguments, 2);
+			callargs = Array.prototype.slice.call(arguments, 3);
 		
 		setTimeout(function(){
 			method.apply(scope || method || window, callargs);
@@ -124,15 +101,15 @@ HL.append(Function.prototype, {
 				setTimeout(arguments.callee, frequency);
 		}, frequency);
 	},
-
-	// setInterval 封装
+	
 	createInterval : function(frequency, scope){
 		var interval,
-			method = this;
+			method = this,
+			callargs = Array.prototype.slice.call(arguments, 3);
 		
 		return {
 			run : function(){
-				interval = setInterval(method.delegate(scope, arguments), frequency);
+				interval = setInterval(method.delegate(scope), frequency);
 			},
 
 			stop : function(){
@@ -141,7 +118,6 @@ HL.append(Function.prototype, {
 		};
 	},
 
-	// 拦截(AOP)
 	intercept : function(fn, scope){
 		var slice = Array.prototype.slice,
 			method = this,
@@ -155,7 +131,6 @@ HL.append(Function.prototype, {
 		};
 	},
 
-	// new 方法的模拟，返回新函数，新函数以函数调用的形式初始化对象
 	newInstance : function(){
 		var slice = Array.prototype.slice,
 			that = function(){},
@@ -176,128 +151,53 @@ HL.append(Function.prototype, {
 
 HL.append(Array.prototype, {
 	
-	each : function(fn, scope){
+	each : function(fn){
 		if(this.length){
 			var i = 0, len = this.length;
 			for(; i < len; i++){
-				fn.call(scope || this, i, this[i], this);
+				fn.call(this, i, this[i], this);
 			}
 		}
 	}
 	
 });
 
-/**
- * 取得当前页 HCore JS 文件的路径
- */
-(function(){
-	var test = /(hl\/base\/HCore.js)$/,
-		scripts = document.getElementsByTagName('script'),
-		i = 0, len = scripts.length, src;
-
-	for(; i < len; i++){
-		src = scripts[i].getAttribute('src');
-		if(test.test(src)){
-			HL.path = src.slice(0, src.indexOf('hl/base/HCore.js'));
-			break;
-		}
-	}
-})();
-
-/**
- * 静态工具方法
- */
 HL.append(HL, {
-	
-	jsu : [], // 已加载的JS文件路径
-	
-	cssu : [], // 已加载的CSS文件路径
 	
 	isIE : function(){
 		return !+[1,];
 	},
 	
-	/**
-	 * 创建自定义模块（比如 HL.ui）-----向Tangram/Extjs致敬
-	 * 2011-6-19
-	 * @param namespace 模块完整的命名空间
-	 * @param fn 模块执行函数，fn默认参数为已实例化的模块对象
-	 * @param owner 模块的目标环境，默认Window
-	 */
-	module : function(namespace, owner){
+	namespace : function(namespace){
 		var ns = namespace.split('.'),
-			i = 0, len = ns.length, 
-			o, chain;
-
-		// 未指定目标环境时，在当前作用域内查找，若无变量则默认Window
-		if(!owner) {
-			try{
-				owner = eval(ns[0]);
-				i = 1;
-			} catch(e) {
-				owner = window;
-			}
-		}
-		for( ; i < len; i++){
+			o, i, len = ns.length, 
+			chain = window[ns[0]] = window[ns[0]] || {};
+		for(i = 1; i < len; i++){
 			o = ns[i];
-			owner = owner[o] = owner[o] || {};
+			chain = chain[o] = chain[o] || {};
 		}
 	},
 
-	/**
-	 * 延迟加载CSS、JS文件
-	 * @param url 可以是一个地址数组
-	 * @param fn 加载成功时回调函数
-	 * @param cascade 传入地址数组时起作用，True时顺序递归加载，否则同时异步加载
-	 */
-	load : function(url, fn, cascade){
+	// 锟斤拷态注锟斤拷锟絊cript锟脚憋拷
+	load : function(url, fn){
 		var regjs = /(\.js)$/,
 			regcss = /(\.css)$/,
-			type, el,
-			callback = fn || function(){};
+			type = regjs.test(url)? 'js' : (regcss.test(url) ? 'css' : ''),
+			callback = fn || function(){},
+			el;
 
-		// 加载多个文件时
-		if(url.length && url.constructor === Array){
-			// 顺序递归加载
-			if(cascade){
-				if(url.length > 1){
-					this.load(url.shift(), function(){
-						this.load(url, callback, true);
-					}.delegate(this));
-				} else {
-					this.load(url[0], callback);
-				}
-			} else { // 同时异步加载
-				url.each(function(i, v, a){
-					this.load(v, callback);
-				});
-			}
-			return;
-		}
-
-		type = regjs.test(url)? 'js' : (regcss.test(url) ? 'css' : '');
-
-		// 判断是否已经被加载过
-		if(this.cssu.indexOf(url) < 0 || this.jsu.indexOf(url) < 0){
-			if(type === 'js'){
-				el = HL.dom.createEl('script', {
-					src : url, 
-					type : 'text/javascript'
-				});
-				this.jsu.push(url);
-			
-			} else if (type === 'css'){
-				el = HL.dom.createEl('link', {
-					href : url, 
-					type : 'text/css', rel : 'stylesheet'
-				});
-				this.cssu.push(url);
-			} else {
-				throw 'the resource is not avaible!';
-			}
+		if(type === 'js'){
+			el = HL.dom.createEl('script', {
+				src : url, 
+				type : 'text/javascript'
+			});
+		} else if (type === 'css'){
+			el = HL.dom.createEl('link', {
+				href : url, 
+				type : 'text/css', rel : 'stylesheet'
+			});
 		} else {
-			callback();
-			return;
+			throw 'the resource is not avaible!';
 		}
 		if(el.readyState){
 			el.onreadystatechange = function(){
@@ -313,66 +213,12 @@ HL.append(HL, {
 		}
 		document.getElementsByTagName('head')[0].appendChild(el);
 	},
-
-	/**
-	 * 延迟加载相应UI组件/应用组件所对应的JS/CSS文件
-	 * @param name 组件名称
-	 * @param callback 回调函数
-	 * @param requires 依赖的其他JS文件
-	 */
-	loadCmp : function(name, callback, requires){
-		var cmp, js, css, reqs;
+	
+	loadModule : function(moudel){
 		
-		if(!this.cmps) return;
-		if(!this.cmps[name]) return null;
-		
-		cmp = this.cmps[name];
-		js = cmp.js || [];
-		css = cmp.css || [];
-		if(requires){
-			requires.each(function(i, v, a){
-				a[i] = this + a[i];
-			}, this.path);
-		}
-		if(js.length && js.constructor === Array){
-			js.each(function(i, v, a){
-				a[i] = this + a[i];
-			}, this.path);
-			js = js.concat(requires || []);
-		} else {
-			js = this.path + js;
-			js = [js].concat(requires || []);
-		}
-		if(css.length && css.construtor === Array){
-			css.each(function(i, v){
-				a[i] = this + a[i];
-			}, this.path);
-		} else {
-			css = this.path + css;
-		}
-		
-		this.load(css);
-		this.load(js, callback, true);
 	},
 	
-	/**
-	 * 注册组件，指定相应的JS/CSS文件，方便后期进行延迟加载
-	 * @param name 组件名称
-	 * @param config 组件配置信息 :
-	 * 		js : string/array
-	 *  	css : string/array
-	 */
-	register : function(name, config){
-		this.cmps = this.cmps || {};
-		this.cmps[name] = this.cmps[name] || {};
-		this.append(this.cmps[name], config);
-	},
-
-	/**
-	 * 将url解析为Json对象
-	 * @param url
-	 * @returns {___anonymous5283_5284}
-	 */
+	// 锟斤拷锟斤拷URL锟斤拷锟斤拷锟街凤拷锟斤拷锟斤拷JSON锟斤拷锟斤拷
 	parseQueryString : function(url){
 		var args = [], params = [],
 			key, value, cache = {};
@@ -399,12 +245,7 @@ HL.append(HL, {
 		return cache;
 	},
 
-	/**
-	 * 将Json对象解析成Url字符串
-	 * @param json
-	 * @param parent（初次调用不使用）
-	 * @returns
-	 */
+	// 锟斤拷锟斤拷JSON锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷台锟结交锟斤拷URL锟街凤拷
 	parseJsonParams : function(json, parent){
 		var args = [], params = [],
 			key, value, type, cache = [];
@@ -434,58 +275,17 @@ HL.append(HL, {
 			return cache.join('&');
 		}
 		return json;
-	},
-	
-
-	/**
-	 * 类定义器
-	 * @param classImpl 类方法以及属性
-	 * @param superClass 父类构造器
-	 * @returns 类构造函数
-	 */
-	Class : function(){
-		var classImpl, superClass,
-			_super = Object,
-			clazz = function(){
-				this.init.apply(this, arguments);
-			};
-		if(typeof arguments[0] === 'function'){
-			superClass = arguments[0];
-			classImpl = arguments[1];
-		} else {
-			classImpl = arguments[0];
-		}
-		if(superClass){
-	      	var parent = function(){ };
-	      	parent.prototype = superClass.prototype;
-			clazz.prototype = new parent();
-			_super = superClass.prototype;
-		}
-
-		clazz.prototype.super = _super;
-		clazz.prototype.constructor = clazz;
-		HL.append(clazz.prototype, classImpl);
-
-		return clazz;
 	}
 });
 
-/**
- * Dom操作函数
- */
-HL.module('HL.dom');
+
+
+HL.namespace('HL.dom');
+
 HL.append(HL.dom, {
-
-	displayMode : /^(block|inline)$/,
-
-	/**
-	 * 创建DOM对象
-	 * @param type
-	 * @param attrs
-	 * @returns
-	 */
+	
 	createEl : function(type, attrs){
-		var el = document.createElement(type), 
+		var el = DOC.createElement(type), 
 			attr;
 		for( attr in attrs){
 			if(attrs.hasOwnProperty(attr)){
@@ -494,24 +294,13 @@ HL.append(HL.dom, {
 		}
 		return el;
 	},
-
-	/**
-	 * 删除DOM对象
-	 * @param el
-	 * @param root
-	 */
+	
 	removeEl : function(el, root){
-		root = root || document.body;
+		root = root || DOC.body;
 		HL.clear(el);
 		root.removeChild(el);
 	},
-
-	/**
-	 * 设置样式
-	 * @param el
-	 * @param attributes（json对象）
-	 * @returns
-	 */
+	
 	setStyle : function(el, attributes){
 		var attr, style = el.style;
 		
@@ -522,16 +311,11 @@ HL.append(HL.dom, {
 		}
 		return el;
 	},
-
-	/**
-	 * 确定元素的绝对方位坐标
-	 * @param el
-	 * @returns {___anonymous7762_7801}
-	 */
+	
 	getPosition : function(el){
 		var left = 0, top = 0, obj = el;
 		
-		while(obj !== document.body){
+		while(obj !== DOC.body){
 			left = left + obj.offsetLeft;
 			top = top + obj.offsetTop;
 			obj = obj.offsetParent;
@@ -542,62 +326,6 @@ HL.append(HL.dom, {
 		};
 	},
 	
-	/**
-	 * 切换DOM元素的display状态
-	 * @param el
-	 */
-	toggle : function(el){
-		var display = this.getComputedStyle(el)['display'];
-		
-		if (this.displayMode.test(display)) {
-			el.style.display = 'none';
-		} else if (display === 'none') {
-			el.style.display = 'block';
-		}
-	},
-	
-	/**
-	 * 取得元素高度，no padding 与offsetHeight不相等
-	 * @param el
-	 * @returns
-	 */
-	getHeight : function(el){
-		var height = this.getComputedStyle(el)['height'];
-		return parseInt(height.split('px')[0]);
-	},
-	
-	/**
-	 * 取得元素宽度，no padding 与offsetWidth不相等
-	 * @param el
-	 * @returns
-	 */
-	getWidth : function(el){
-		var width = this.getComputedStyle(el)['width'];
-		return parseInt(width.split('px')[0]);
-	},
-	
-	/**
-	 * 取得DOM元素计算出的样式
-	 * @param el
-	 * @returns
-	 */
-	getComputedStyle : function(el){
-		var style;
-		if(el.currentStyle){
-			return el.currentStyle;
-		} else if(document.defaultView.getComputedStyle) {
-			return document.defaultView.getComputedStyle(el, null);
-		}
-	},
-
-	/**
-	 * 改变元素样式，并产生动画效果
-	 * @param el
-	 * @param attrs 需要改变的样式Json格式
-	 * @param time 动画执行总时间
-	 * @param isAbsolute 元素是否为绝对定位
-	 * @param callback 动画执行完毕的回调函数
-	 */
 	animate : function(el, attrs, time, isAbsolute, callback){
 		var attr, size, offset,
 			attrType = /^(height|width|left|top|opacity|background)$/,
@@ -640,13 +368,6 @@ HL.append(HL.dom, {
 		}
 	},
 
-	/**
-	 * Css选择器，不支持低端浏览器
-	 * @param el
-	 * @param selector
-	 * @param all
-	 * @returns
-	 */
 	query : function(el, selector, all){
 		var id = /^(#\w+)/,
 			tag = /\w+/,
@@ -658,14 +379,7 @@ HL.append(HL.dom, {
 			
 		}
 	},
-
-	/**
-	 * 向上检索满足Css选择器的父对象
-	 * @param el
-	 * @param selector
-	 * @param d 检索的深度
-	 * @returns
-	 */
+	
 	findParent : function(el, selector, d){
 		var parent = el.parentNode,
 			mparent,
@@ -696,15 +410,9 @@ HL.append(HL.dom, {
 			return parent;
 		}
 	},
-
-	/**
-	 * 增加Class属性
-	 * @param dom
-	 * @param className
-	 * @returns
-	 */
+	
 	addClass : function(dom, className){
-		var cls = dom.className.split(/\s+/),
+		var cls = dom.className.split(' '),
 			i, len = cls.length;
 		for(i = 0; i < len; i++){
 			if(className === cls[i]){
@@ -715,14 +423,8 @@ HL.append(HL.dom, {
 		return dom;
 	},
 
-	/**
-	 * 判断是否包含Class
-	 * @param dom
-	 * @param className
-	 * @returns {Boolean}
-	 */
 	hasClass : function(dom, className){
-		var cls = dom.className.split(/\s+/),
+		var cls = dom.className.split(' '),
 			i, len = cls.length;
 		for(i = 0; i < len; i++){
 			if(className === cls[i]){
@@ -731,15 +433,9 @@ HL.append(HL.dom, {
 		};
 		return false;
 	},
-
-	/**
-	 * 清除相应Class
-	 * @param dom
-	 * @param className
-	 * @returns
-	 */
+	
 	removeClass : function(dom, className){
-		var cs = dom.className.split(/\s+/),
+		var cs = dom.className.split(' '),
 			c = [], 
 			i, n = 0, len = cs.length;
 		
@@ -754,69 +450,50 @@ HL.append(HL.dom, {
 	
 });
 
-// 函数的快捷方法
-HL.q = HL.dom.query;
-HL.g = function(id){
-	return document.getElementById(id);
+var query = HL.dom.query;
+
+var $ = function(id){
+	return DOC.getElementById(id);
 };
 
 
-// 创建模块命名空间
-HL.module('HL.ui');
-HL.module('HL.bi');
-HL.module('HL.event');
-HL.module('HL.data');
+Class = function(){
+	var classImpl, superClass,
+		_super = Object,
+		clazz = function(){
+			this.init.apply(this, arguments);
+		};
+	if(typeof arguments[0] === 'function'){
+		superClass = arguments[0];
+		classImpl = arguments[1];
+	} else {
+		classImpl = arguments[0];
+	}
+	if(superClass){
+      	var parent = function(){ };
+      	parent.prototype = superClass.prototype;
+		clazz.prototype = new parent();
+		_super = superClass.prototype;
+	}
+
+	clazz.prototype.super = _super;
+	HL.append(clazz.prototype, classImpl);
+	//window[classname] = clazz;
+	return clazz;
+};
+
+HL.namespace('HL.ui');
+HL.namespace('HL.bi');
+HL.namespace('HL.event');
+HL.namespace('HL.data');
 
 
-/**
- * 注册Accordion组件
- */
-HL.register('accordion', {
-	js : 'hl/ui/Accordion.js',
-	css : 'hl/css/AccordionNormal.css'
-});
-/**
- * 注册Clock组件
- */
-HL.register('clock', {
-	js : ['hl/ui/DigitalNumber.js', 'hl/ui/DigitalClock.js'],
-	css : 'hl/css/Number.css'
-});
-/**
- * 注册Grid组件
- */
-HL.register('grid', {
-	js : 'hl/ui/Grid.js',
-	css : 'hl/css/Grid.css'
-});
-/**
- * 注册Tab组件
- */
-HL.register('tab', {
-	js : 'hl/ui/Tab.js',
-	css : 'hl/css/Tab.css'
-});
-/**
- * 注册Tree组件
- */
-HL.register('tree', {
-	js : 'hl/ui/TreeView.js',
-	css : 'hl/css/TreeView.css'
-});
-
-/**
- * UI组件基础父类
- */
-HL.ui.Base = HL.Class({
-
-	/**
-	 * 组件初始化方法
-	 * @param config
-	 */
+HL.ui.Base = Class({
+	
 	init : function(config){
 	
 		if(config.renderID){
-			this.container = document.getElementById(config.renderID);
+			this.container = DOC.getElementById(config.renderID);
 			delete config.renderID;
 		} else if(config.el) {
 			this.container = config.el;
@@ -824,48 +501,20 @@ HL.ui.Base = HL.Class({
 		}
 		
 		HL.append(this, config);
-		HL.Observable(this); // 实现观察者行为接口
+		HL.Observable(this);
 		this.renderUI();
 		this.initEvent();
 	},
-
-	/**
-	 * DOM对象渲染
-	 */
+	
 	renderUI : function(){
 		this.fire('render', this);
 	},
-
-	/**
-	 * 注册事件
-	 */
-	initEvent : function(){
-		var event;
-		if(this.listeners){
-			for( event in this.listeners ){
-				if(this.listeners.hasOwnProperty(event)){
-					this.on(event, this.listeners[event], this);
-				}
-			}
-		}
-	},
-
-	/**
-	 * 销毁UI
-	 */
+	
+	initEvent : function(){},
+	
 	destroy : function(){
 		if(this.fire('beforeDestroy', this)){
 			this.fire('destroy', this);
 		}
 	}
 });
-
-
-	/**
-	 * 向Window全局变量中注入 HL 变量，根据版本的不同，可以让多个HL模块共存
-	 */
-	if(!window[HL.uuid]) {
-		window[HL.uuid] = HL;
-	}
-	
-})();

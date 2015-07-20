@@ -1,12 +1,9 @@
 /*!
- * HL JS Library
+ * HL JS Library 3.3.1
  * Copyright(c) 2011 huang long.
  */
 
-/**
- * Grid表格 UI控件类
- */
-HL.ui.Grid = HL.Class( HL.ui.Base, {
+HL.ui.Grid = Class( HL.ui.Base, {
 	
 	body : {},
 	
@@ -115,15 +112,11 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 		this.on('rowmouseout', function(r, e){
 			this.clearHoverCls();
 		});
-		this.super.initEvent.call(this);
 	},
-
-	/**
-	 * 清除鼠标滑过的效果样式
-	 */
+	
 	clearHoverCls : function(){
 		var rows = this.getRow(),
-			ths = HL.q(this.body, 'tr th', true),
+			ths = this.body.querySelectorAll('tr th'),
 			cls = this.getHoverCls();
 		rows.each(function(i, v, a){
 			HL.dom.removeClass(v, cls);
@@ -133,11 +126,6 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 		});
 	},
 
-	/**
-	 * 事件代理模式执行函数
-	 * @param eventName
-	 * @param e
-	 */
 	processHandler : function(eventName, e){
 		var row, cell, 
 			t = e.getTarget(),
@@ -156,16 +144,11 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 			}
 		}
 	},
-
-	/**
-	 * 查询出DOM元素在Grid标题上的相应位置
-	 * @param t
-	 * @returns
-	 */
+	
 	getHeadIndex : function(t){
 		var i, len,
 			h = HL.dom.findParent(t, 'th'),
-			th = HL.q(this.body, 'tr th', true);
+			th = this.body.querySelectorAll('tr th');
 		
 		for(i = 0, len = th.length; i < len; i++){
 			if(th[i] === h) {
@@ -176,19 +159,11 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 		this.currentHead = {};
 		return false;
 	},
-
-	/**
-	 * 取得Grid所有行
-	 */
+	
 	getRow : function(){
-		return HL.q(this.body, 'tbody tr.' + this.getRowCls(), true);
+		return this.body.querySelectorAll('tbody tr.' + this.getRowCls());
 	},
-
-	/**
-	 * 查询出DOM元素在Grid列上的相应位置
-	 * @param t
-	 * @returns
-	 */
+	
 	getRowIndex : function(t){
 		var i, len,
 			row = HL.dom.findParent(t, 'tr.' + this.getRowCls()),
@@ -203,18 +178,12 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 		this.currentRow = {};
 		return false;
 	},
-
-	/**
-	 * 查询出单元格的相应位置
-	 * @param t
-	 * @param r
-	 * @returns
-	 */
+	
 	getCellIndex : function(t, r){
 		var i, len,
 			cell = HL.dom.findParent(t, 'td.' + this.getCellCls()),
 			tr = this.getRow(),
-			td = HL.q(tr[r], 'td.' + this.getCellCls(), true);
+			td = tr[r].querySelectorAll('td.' + this.getCellCls());
 		
 		for(i = 0, len = td.length; i < len; i++){
 			if(td[i] === cell){
@@ -225,7 +194,7 @@ HL.ui.Grid = HL.Class( HL.ui.Base, {
 		this.currentCell = {};
 		return false;
 	},
-
+	
 	onMouseDown : function(e){
 		this.processHandler('mousedown', e);
 		if(e.button == 2){

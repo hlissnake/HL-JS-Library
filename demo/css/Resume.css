@@ -1,0 +1,105 @@
+@CHARSET "UTF-8";
+
+#header, #context, #footer {
+	width: 950px;
+	margin: 0 auto;
+}
+#header {
+	overflow: hidden;
+	border-bottom: 1px solid #ACE;
+}
+#header .logo {
+	float: left;
+	padding: 0;
+	border: none;
+}
+#header .sub-title {
+	float: left;
+	margin: 20px 5px 0 5px;
+	font: 25px "Microsoft YaHei";
+	color: #AAA;
+}
+#header .navigation {
+	float: right;
+	margin: 25px 0 0 0;
+	overflow: hidden;
+	list-style: none;
+}
+#header .navigation li {
+	float: left;
+	margin-left: -1px;
+	padding: 0 10px 0 25px;
+	line-height: 1em;
+	border-left: 1px solid #DDD;
+	background: url(../img/bullet.gif) no-repeat 12px 50%;
+}
+#footer {
+	clear: both;
+	padding: 30px 0;
+	text-align: center;
+	color: #888;
+	border-top: 1px dotted #DDD;
+}
+
+#context {
+	margin-bottom: 10px;
+}
+.s-crumbs {
+	height: 38px;
+	padding-left: 20px;
+	padding-top: 4px;
+	background: #284258;
+	color: white;
+	border-bottom: 3px solid #2AA3E2;
+}
+.col-main {
+	padding-top: 5px;
+	width: 100%;
+	min-height: 1px;
+}
+.grid-s6m0 .main-wrap {
+	margin-left: 240px;
+	padding-left: 10px;
+}
+.col-sub {
+	height: 475px;
+	float: left;
+	border: 1px solid #ACE;
+	border-top: none;
+	background: #F2F8FA;
+}
+.grid-s6m0 .col-sub {
+	width: 230px;
+}
+.sub-wrap {
+	padding: 0 10px;
+}
+.s-title {
+	padding: 8px 0;
+	font: bold 16px "Microsoft YaHei";
+	border-bottom: 1px dotted #CCC;
+}
+.s-section {
+	padding: 8px 0;
+	overflow: auto;
+}
+ul, ol {
+	list-style: none;
+}
+.s-list li {
+	margin: 0;
+	padding-left: 14px;
+	list-style: inside none;
+	display: list-item;
+}
+
+body, button, input, select, textarea {
+	font: 14px/1.5 tahoma, arial, 宋体b8b\4f53, sans-serif;
+}
+.opacity{
+	opacity : 0.8;
+	position : absolute;
+	width : 400px;
+	heigth : 150px;
+	z-index : 100;
+}

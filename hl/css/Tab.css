@@ -48,42 +48,13 @@ h3, h4, h5, h6, ul, li{
 	width: 4px;
 	height: 4px;
 	overflow: hidden;
-	background: url(../img/bg-repeatx.png) no-repeat 0 0;
-}
-
-.tab-hd-panel {
-	height: 27px;
-	overflow: hidden;
-	position: relative;
-	border-bottom: 2px solid #2AA3E2;
+	background: url(../img/bg-repeatx.png) no-repeat -3px 0;
 }
 
 .tab-hd {
-	position: absolute;
-	width : 1200px;
-}
-
-.tab-leftbtn, .tab-rightbtn {
-	opacity : 0.5;
-	width : 20px;
-	height: 27px;
-	position : absolute;
-	z-index : 100;
-	cursor : pointer;
-}
-
-.tab-leftbtn{
-	left : 0;
-	background: #E5EFFF url(../img/left.jpg);
-}
-
-.tab-rightbtn{
-	background: #E5EFFF url(../img/right.jpg);
-}
-
-i.tab-leftbtn:hover, i.tab-rightbtn:hover {
-	border : 1px solid #2AA3E2;
-	opacity : 1;
+	height: 30px;
+	overflow: hidden;
+	border-bottom: 2px solid #2AA3E2;
 }
 
 .tab-active {
@@ -94,13 +65,13 @@ i.tab-leftbtn:hover, i.tab-rightbtn:hover {
 
 .tab-inactive {
 	border: 1px solid #D0D0D0;
-	background: #E5EFFF url(../img/niceimg.jpg) repeat-x;
+	background: #E5EFFF url(../img/bg-repeatx.png) repeat-x 0 -9px;
 }
 
 ul.tab-hd li{
 	position: relative;
 	float: left;
-	height: 27px;
+	height: 30px;
 	width: auto;
 	margin-right: 2px;
 	padding-left: 12px;

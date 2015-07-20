@@ -1,15 +1,13 @@
 
 /**
- * 观察者事件模型（函数化接口方法）
+ * 锟铰硷拷锟斤拷锟斤拷涌锟�
  */
 HL.event.Observable = function(target){
 
-	var observer = {},
-		fnIndex = 0; // 2011-6-19增加：监听函数队列遍历索引值，用来辅助动态删除监听函数队列
-
-	/**
-	 * 注册自定义事件的监听函数
-	 */
+	// 锟秸帮拷占锟侥观诧拷锟竭ｏ拷锟斤拷锟斤拷枚锟斤拷锟斤拷锟斤拷锟斤拷录锟斤拷募锟斤拷锟斤拷锟�
+	var observer = {};
+	
+	// 为某一锟铰硷拷锟斤拷蛹锟斤拷锟斤拷锟�
 	target.on = function(event, listener, scope, config, args){
 		var l = observer[event],
 		    array = [], 
@@ -27,7 +25,6 @@ HL.event.Observable = function(target){
 		if(config.single === true){// 监听事件只触发一次
 			o = this;
 			handler = function(){
-				fnIndex--; //2011-6-19 监听函数删除后，遍历索引回到上一位置
 				o.removeListener(event, listener, scope);
 				return listener.apply(scope || this, arguments);
 			};
@@ -52,20 +49,18 @@ HL.event.Observable = function(target){
 		return this;
 	};
 
-	/**
-	 * 触发相应事件的监听函数
-	 */
+	// 锟斤拷锟斤拷某锟铰硷拷锟斤拷锟斤拷锟叫硷拷锟斤拷锟斤拷
 	target.fire = function(event){
 		var listeners = observer[event] || [],
 		    func, scope, paramters,
-		    //不缓存监听队列长度，因为可能会动态删除 len = listeners.length,
+		    //不缓存监听队列长度，因为可能会动态删除len = listeners.length,
 			args = Array.prototype.slice.call(arguments, 1);
 
 		if(listeners){
-			for( fnIndex = 0; fnIndex < listeners.length; fnIndex++ ){
-				func = listeners[fnIndex].fireFn;
-				scope = listeners[fnIndex].scope;
-				paramters = listeners[fnIndex].args || [];
+			for(var i = 0; i < listeners.length; i++){
+				func = listeners[i].fireFn;
+				scope = listeners[i].scope;
+				paramters = listeners[i].args || [];
 				// 运行监听函数，返回false即终止继续触发
 				if(func.apply(scope, paramters.concat(args)) === false)
 					return false;
@@ -73,10 +68,8 @@ HL.event.Observable = function(target){
 		}
 		return true;
 	};
-
-	/**
-	 * 删除事件的某监听函数
-	 */
+	
+	// 锟狡筹拷锟铰硷拷某一锟斤拷锟斤拷锟斤拷锟斤拷
 	target.removeListener = function(event, fn, scope){
 		var l = observer[event],
 			i = l.length - 1;
@@ -96,13 +89,10 @@ HL.event.Observable = function(target){
 HL.Observable = HL.event.Observable;
 
 /**
- * DOM事件模型
+ * 锟铰硷拷锟斤拷锟斤拷锟斤拷
  */
 HL.event.Manager = function(){
-
-	/**
-	 * 缓存DOM元素的事件列表
-	 */
+	
 	var elCache = {},
 	
 	addEventHandler = function(){
@@ -118,7 +108,7 @@ HL.event.Manager = function(){
 		}
 		return h;
 	}(),
-
+	
 	removeEventHandler = function(){
 		var h;
 		if(window.removeEventListener){
@@ -135,18 +125,10 @@ HL.event.Manager = function(){
 	
 	
 	return {
-
-		/**
-		 * 注册DOM事件
-		 * @param target
-		 * @param eventname
-		 * @param handler
-		 * @param scope
-		 * @param config
-		 * @returns
-		 */
+		
+		// 锟斤拷DOM元锟斤拷锟斤拷锟斤拷录锟斤拷锟斤拷锟�
 		addListener : function(target, eventname, handler, scope, config){
-			var el = typeof target === 'object' ? target : document.getElementById(target),
+			var el = typeof target === 'object' ? target : DOC.getElementById(target),
 				id;
 			wrap = function(event){
 				var e = HL.event.EventObj(event);
@@ -170,16 +152,9 @@ HL.event.Manager = function(){
 			addEventHandler(el, eventname, wrap);
 			return el;
 		},
-
-		/**
-		 * 清除某监听函数
-		 * @param target
-		 * @param eventname
-		 * @param handler
-		 * @returns
-		 */
+		
 		removeListener : function(target, eventname, handler){
-			var el = typeof target === 'object' ? target : document.getElementById(target),
+			var el = typeof target === 'object' ? target : DOC.getElementById(target),
 				id, listeners, wrap;
 			
 			if(!el)
@@ -201,14 +176,9 @@ HL.event.Manager = function(){
 			removeEventHandler(el, eventname, wrap);
 			return el;
 		},
-
-		/**
-		 * 清除DOM元素所以监听函数
-		 * @param target
-		 * @returns
-		 */
+		
 		clearListeners : function(target){
-			var el = typeof target === 'object' ? target : document.getElementById(target),
+			var el = typeof target === 'object' ? target : DOC.getElementById(target),
 				id, o, event,listeners;
 			if(!el)
 				throw 'The element is not exist in the document!';
@@ -225,7 +195,6 @@ HL.event.Manager = function(){
 				}
 			}
 		}
-		
 	};
 }();
 
@@ -236,18 +205,11 @@ HL.clear = HL.event.Manager.clearListeners;
 
 HL.event.mouseout = /^(mouseout|mouseleave)/,
 HL.event.mouseover = /^(mouseover|mouseenter)/;
-
-/**
- * Event对象封装
- */
 HL.event.EventObj = function(event){
 	
 	var ev = event || window.event, 
 		e = {
 
-			/**
-			 * 取得鼠标坐标
-			 */
 			getCoords : function(){
 				if(ev.pageX){
 					return {
@@ -265,17 +227,11 @@ HL.event.EventObj = function(event){
 					};
 				}
 			},
-
-			/**
-			 * 取得事件源DOM元素
-			 */
+			
 			getTarget : function(){
 				return ev.target ? ev.target : ev.srcElement;
 			},
-
-			/**
-			 * 取得事件源Related元素
-			 */
+			
 			getRelatedTarget : function(){
 				if(HL.isIE()){
 					HL.event.mouseout.test(ev.type) ? ev.toElement : ev.fromElement;
@@ -283,10 +239,7 @@ HL.event.EventObj = function(event){
 					return ev.relatedTarget;
 				}
 			},
-
-			/**
-			 * 取消事件默认行为
-			 */
+			
 			stopEvent : function(){
 				if(ev.stopPropagation){
 					ev.stopPropagation();

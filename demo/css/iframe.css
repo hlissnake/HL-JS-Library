@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+h3 {
+	color: #6C6EB6;
+	text-decoration: underline;
+	font-size: 13px;
+	height: 18px;
+	padding: 3px 12px 0px 22px;
+	background: #D5D6E5 url(../img/sign9.gif) no-repeat 12px 9px;
+	border-top: ;
+	font-weight: normal;
+}
+p {
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	line-height: 18px;
+	padding: 5px 10px 5px 22px;
+}
+.resume_p {
+	margin: 8px auto 16px 22px;
+	margin-left: 22px;
+	width: 560px;
+	word-wrap: break-word;
+	line-height: 18px;
+}
+* {
+	font-size: 13px;
+	margin: 0;
+	padding: 0;
+}
